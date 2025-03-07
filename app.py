@@ -4,6 +4,7 @@ import pandas as pd
 import requests
 from huggingface_hub import hf_hub_download
 
+TMDB_API_KEY = st.secrets["TMDB_API_KEY"]
 
 movies_dict = pickle.load(open("movies_dict.pkl","rb"))  
 similarity = pickle.load(open( hf_hub_download(repo_id="sanjayvp/similarity", filename="similarity.pkl"), "rb") )
@@ -13,7 +14,7 @@ movies = pd.DataFrame(movies_dict)
 
 
 def fetch_poster(movie_id):
-    response = requests.get(f"https://api.themoviedb.org/3/movie/{movie_id}?api_key=d7e3ed7311a954904494cf2cb7f47574&language=en-US")
+    response = requests.get(f"https://api.themoviedb.org/3/movie/{movie_id}?api_key={TMDB_API_KEY}&language=en-US")
     data = response.json()
     return f"http://image.tmdb.org/t/p/w500/{data["poster_path"]}"
 
